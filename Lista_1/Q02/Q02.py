@@ -15,7 +15,7 @@ img3 = cv2.resize(img3, (img.shape[0],img.shape[1]))
 cv2.imshow('img', img)
 cv2.imshow('img3', img3)
 
-cv2.imwrite("baboon_result.png", img3)
+# cv2.imwrite("baboon_result.png", img3)
 
 k = cv2.waitKey(0)
 
