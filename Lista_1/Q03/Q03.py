@@ -1,47 +1,31 @@
-import cv2
 import numpy as np
-from matplotlib import pyplot as plt
-import copy
+import cv2
 
-def nothing(x):
-    pass
+x = 1
+y = 120
 
-cv2.namedWindow('img', cv2.WINDOW_KEEPRATIO)
-cv2.namedWindow('img2', cv2.WINDOW_KEEPRATIO)
+img = cv2.imread("../img/lena.png")
 
-cv2.createTrackbar("b", "img", 1, 350, nothing)
-cv2.createTrackbar("g", "img", 1, 350, nothing)
-cv2.createTrackbar("r", "img", 1, 350, nothing)
+black_img = np.ones((img.shape[0], img.shape[1], 3), dtype=np.uint8)
+white_img = np.ones((img.shape[0], img.shape[1], 3), dtype=np.uint8)
 
-#const = 2
+for i in range(img.shape[0]):
+    for j in range(img.shape[1]):
+        for k in range(img.shape[2]):
+            white_img[i,j,k] = np.clip(x*img[i,j,k] + y, 0, 255)
+            black_img[i,j,k] = np.clip(x*img[i,j,k] - y, 0, 255)
 
-while True:
-    img = cv2.imread("../img/lena.png", cv2.IMREAD_COLOR)
-    img2 = copy.deepcopy(img)
+"""
+cv2.imwrite("results/lena_white.png", white_img)
+cv2.imwrite("results/lena_black.png", black_img)
+"""
 
-    #black_img = np.zeros((img.shape[0], img.shape[1], 3), dtype=np.uint8)
-    #white_img = np.ones((img.shape[0], img.shape[1], 3), dtype=np.uint8)
+cv2.imshow("img", img)
+cv2.imshow("img2", white_img)
+cv2.imshow("img3", black_img)
 
-    #white_img *= 255
+k = cv2.waitKey(0)
 
-    b = cv2.getTrackbarPos('b','img')
-    g = cv2.getTrackbarPos('g','img')
-    r = cv2.getTrackbarPos('r','img')
-
-    img[:,:,0] *= b
-    img[:,:,1] *= g
-    img[:,:,2] *= r
-
-    #img2 = img - black_img
-    #img3 = img - white_img
-
-    #cv2.imshow('img', img3)
-    #cv2.imshow('img2', img2)
-    cv2.imshow('img', img)
-    cv2.imshow('img2', img2)
-
-    k = cv2.waitKey(0)
-
-    if k == ord('q'):
-        cv2.destroyAllWindows()
+if k == ord('q'):
+    cv2.destroyAllWindows()
 
